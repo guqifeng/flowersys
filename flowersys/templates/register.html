@@ -1,140 +1,61 @@
+{% extends 'base.html' %}
 
-<!DOCTYPE HTML>
-<html>
-<head>
-<title>Register</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="{{STATIC_URL}}/css/style.css" rel="stylesheet" type="text/css" media="all" />
-<link href='http://fonts.googleapis.com/css?family=Exo+2' rel='stylesheet' type='text/css'>
-<script type="text/javascript" src="{{STATIC_URL}}/js/jquery1.min.js"></script>
-<!-- start menu -->
-<link href="{{STATIC_URL}}/css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
-<script type="text/javascript" src="{{STATIC_URL}}/js/megamenu.js"></script>
-<script>$(document).ready(function(){$(".megamenu").megamenu();});</script>
-<script src="{{STATIC_URL}}/js/jquery.easydropdown.js"></script>
-</head>
-<body> 
-	<div class="header-top">
-  <div class="wrap"> 
+{% block title %}注册{% endblock %}
+{% block content %}
+
+<div class="container">
+  {% if form.non_field_errors %}
+  <div class="messages">
+    <div class="alert alert-warning alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      {{ form.non_field_errors }}
+    </div>
   </div>
-		 <div class="cssmenu">
-				<ul>
-				  <li class="active"><a href="login.html">你好，请登录</a></li> |
-                    <li><a href="register.html">注册</a></li> |
-					<li><a href="checkout.html">购物车</a></li> |
-				  <li><a href="checkout.html">我的订单</a></li> |
-           </ul>
-         </div>
-		<div class="clear"></div>
-</div>
-	<div class="header-bottom">
-	    <div class="wrap">
-		  <div class="header-bottom-left">
-				<div class="logo">
-					<a href="index.html"><img src="{{STATIC_URL}}/images/logo.png" alt=""/></a>
-				</div>
-				<div class="menu">
-	            <ul class="megamenu skyblue">
-			   <li class="active grid"><a href="index.html">首页</a></li>
-			   <li><a class="color4" href="#">爱情鲜花</a>
-			   <li><a class="color5" href="#">生日鲜花</a>
-			   <li><a class="color6" href="other.html">庆典鲜花</a></li>
-			   <li><a class="color7" href="other.html">永生花</a></li>
-			</ul>
-			</div>
-		</div>
-	   <div class="header-bottom-right">
-         <div class="search">	  
-				<input type="text" name="s" class="textbox" value="搜索" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}">
-				<input type="submit" value="Subscribe" id="submit" name="submit">
-				<div id="response"> </div>
-		 </div>
-	  <div class="tag-list">
-		<ul class="icon1 sub-icon1 profile_img">
-			<li><a class="active-icon c2" href="#"> </a>
-			  <ul class="sub-icon1 list">
-				<li><h3>No Products</h3><a href=""></a></li>
-					
-				</ul>
-			</li>
-		</ul>
-	    <ul class="last"><li><a href="#">购物车</a></li></ul>
-	  </div>
+  {% endif %}
+  <div class="register center-block">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><strong>注册</strong></h3>
+      </div>
+      <div class="panel-body">
+        <form action="" method="post">{% csrf_token %}
+          <div class="form-group {% if form.username.errors %} has-error {% endif %}">
+            <label for="">{{ form.username.label }}</label>
+            {% if form.username.errors %}
+            <span class="text-danger pull-right">{{ form.username.errors }}</span>
+            {% endif %}
+            {{ form.username }}
+            <p class="text-muted">{{ form.username.help_text }}</p>
+          </div>
+          <div class="form-group {% if form.email.errors %} has-error {% endif %}">
+            <label for="">{{ form.email.label }}</label>
+            {% if form.email.errors %}
+            <span class="text-danger pull-right">{{ form.email.errors }}</span>
+            {% endif %}
+            {{ form.email }}
+            <p class="text-muted">{{ form.email.help_text }}</p>
+          </div>
+          <div class="form-group {% if form.password.errors %} has-error {% endif %}">
+            <label for="">{{ form.password.label }}</label>
+            {% if form.password.errors %}
+            <span class="text-danger pull-right">{{ form.password.errors }}</span>
+            {% endif %}
+            {{ form.password }}
+            <p class="text-muted">{{ form.password.help_text }}</p>
+          </div>
+          <div class="form-group {% if form.confirm_password.errors %} has-error {% endif %}">
+            <label for="">{{ form.confirm_password.label }}</label>
+            {% if form.confirm_password.errors %}
+            <span class="text-danger pull-right">{{ form.confirm_password.errors }}</span>
+            {% endif %}
+            {{ form.confirm_password }}
+          </div>
+          <button type="submit" class="btn btn-default">注 册</button>
+        </form>
+      </div>
     </div>
-     <div class="clear"></div>
-     </div>
+  </div>
 </div>
 
-          <div class="register_account">
-          	<div class="wrap">
-    	      <h4 class="title">注册账号</h4>
-    		   <form>
-    			 <div class="col_1_of_2 span_1_of_2">
-		   			 <div>昵称：<input type="text" value="请输入您的昵称" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '请输入您的昵称';}"></div>
-		    			<div>邮箱：<input type="text" value="请输入您的邮箱" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '请输入您的邮箱';}"></div>
-		    			<div>密码：<input type="text" value="不少于6位字符" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '不少于6位字符';}"></div>
-		    	 </div>
-		    	  <div class="col_1_of_2 span_1_of_2">	
-		    		<div>详细地址：</div>
-		    		<div><select id="country" name="省：" onchange="change_country(this.value)" class="frm-field required">
-		            <option value="null">您所在的省：</option>         
-		            <option value="SD">山东</option>
-		            <option value="JS">江苏</option>
-		            <option value="SH">上海</option>
-		            <option value="ZJ">浙江</option>
-		            <option value="AH">安徽</option>
-		            <option value="FJ">福建</option>
-		            <option value="JX">江西</option>
-		            <option value="GD">广东</option>
-		            <option value="GX">广西</option>
-		            <option value="HN">海南</option>
-		            <option value="HN">河南</option>
-		            <option value="HN">湖南</option>
-		            <option value="HB">湖北</option>
-		            <option value="BJ">北京</option>
-		            <option value="TJ">天津</option>
-		            <option value="HB">河北</option>
-		            <option value="SX">山西</option>
-		            <option value="NMG">内蒙古</option>
-		            <option value="NX">宁夏</option>
-		            <option value="QH">青海</option>
-		            <option value="SX">陕西</option>
-		            <option value="GS">甘肃</option>
-		            <option value="XJ">新疆</option>
-		            <option value="SC">四川</option>
-		            <option value="GZ">贵州</option>
-		            <option value="YN">云南</option>
-		            <option value="CQ">重庆</option>
-		            <option value="XZ">西藏</option>
-		            <option value="LN">辽宁</option>
-		            <option value="JL">吉林</option>
-		            <option value="HLJ">黑龙江</option>
-		            <option value="XG">香港</option>
-		            <option value="AM">澳门</option>
-		            <option value="TW">台湾</option>
-		           
-		          <div><input type="text" value="详细地址：" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '详细地址：';}"></div>
-		           <div>
-		          </div>
-		          	联系方式<input type="text" value="请输入您的电话号码：" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '请输入您的电话号码：';}">
-		          		
-		          </div>
-		      <button class="grey">注册</button>
-		    <p class="terms">点击注册表示您同意XXX条款 </p>
-		    <div class="clear"></div>
-		    </form>
-    	</div>
-    </div>
-   <div class="footer">
-	 <div class="footer-bottom">
-			<div class="wrap">
-			  <p >全国统一订购热线：</p>
-			  <p> 配送方式说明：   </p>
-			  <p>售后服务：</p>
-			</div>
-	 </div>
-</div>
-<div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
-</body>
-</html>
+
+{% endblock %}

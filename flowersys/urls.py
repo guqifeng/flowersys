@@ -13,8 +13,16 @@ Including another URLconf
     1. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import include, url
+from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.contrib import staticfiles
 from django.contrib import admin
+from .apps.myauth import views
 
 urlpatterns = [
+
+    url(r'^register/$', views.RegisterView.as_view(), name='register'),
     url(r'^admin/', include(admin.site.urls)),
 ]
+urlpatterns += staticfiles_urlpatterns()
+
