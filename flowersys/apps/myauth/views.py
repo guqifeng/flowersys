@@ -1,18 +1,54 @@
-from django.core.urlresolvers import reverse_lazy
-from django.views.generic.edit import FormView
-from django.contrib.auth import authenticate, login
+# coding:utf-8
+from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render, redirect, HttpResponse
+from .models import User
+import hashlib
+# from django.contrib.auth import authenticate, login, logout
 
-from .form import RegisterForm
 
-class RegisterView(FormView):
-    template_name = 'register.html'
-    form_class = RegisterForm
-    success_url = reverse_lazy('blog_index')
+def index(request):
+    return render(request, 'index.html')
 
-    def form_valid(self, form):   #用户登录
-        form.save()   #执行完成后，新用户存入数据库
-        username = form.cleaned_data.get('username')
-        password = form.cleaned_data.get('password')
-        user = authenticate(username=username, password=password)
-        login(self.request, user)
-        return super(RegisterView, self).form_valid(form)
+
+def register_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        if User.objects.filter(username=username):
+            return HttpResponse('<h1>用户已存在!</h1>')
+        else:
+            password = add_password(request.POST['password'])
+            email = request.POST['email']
+            phone = request.POST['phone']
+            user = User.objects.create(
+                username=username, password=password, email=email, phone=phone)
+            request.session["username"] = user.username
+            return redirect('/')
+
+    return render(request, 'register.html', locals())
+
+
+@csrf_exempt
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = add_password(request.POST['password'])
+        user_objs = User.objects.filter(username=username)
+        if len(user_objs) == 1:
+            user = user_objs[0]
+            request.session["username"] = user.username
+            return redirect('/')
+        else:
+            return HttpResponse('<h1>用户不存在或者密码账号输入不正确</h1>')
+    else:
+        return render(request, 'login.html', locals())
+    return render(request, 'index.html', locals())
+
+
+def logout_view(request):
+    del request.session
+    return render(request, 'index.html', locals())
+
+
+def add_password(password):
+    m = hashlib.md5(password).hexdigest()
+    return m
