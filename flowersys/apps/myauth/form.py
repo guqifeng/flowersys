@@ -6,21 +6,23 @@ from django import forms
 class RegisterForm(forms.Form):
     username = forms.CharField(
         label=u'昵称',
+        help_text=u'昵称可用于登录，不能包含空格和@字符。',
         max_length=20,
-        initial=u'昵称可用于登录，不能包含空格和@字符',
+        initial='',
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         )
 
     email = forms.EmailField(
         label=u'邮箱',
+        help_text=u'邮箱可用于登录，最重要的是需要邮箱来找回密码，所以请输入您的可用邮箱。',
         max_length=50,
-        initial=u'邮箱可用于登录，找回密码，请输入您的可用邮箱',
+        initial='',
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         )
 
     password = forms.CharField(
         label=u'密码',
-        initial=u'密码请6 ~ 18位输入字符',
+        help_text=u'密码只有长度要求，长度为 6 ~ 18 。',
         min_length=6,
         max_length=18,
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
@@ -28,10 +30,17 @@ class RegisterForm(forms.Form):
 
     confirm_password = forms.CharField(
         label=u'确认密码',
-        initial=u'请再次输入密码',
         min_length=6,
         max_length=18,
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        )
+
+    telephone =forms.DecimalField(
+        label=u'电话号码',
+        min_value=10000000000,
+        max_value=19999999999,
+        decimal_places=0,
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
         )
 
     def clean_username(self):

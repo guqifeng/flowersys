@@ -20,7 +20,7 @@ from django.contrib import admin
 from .apps.myauth import views
 
 urlpatterns = [
-
+    url(r'^', include('django.contrib.auth.urls')),
     url(r'^register/$', views.RegisterView.as_view(), name='register'),
     url(r'^admin/', include(admin.site.urls)),
 ]
